@@ -11,10 +11,20 @@ const envSchema = z.object({
     REDIS_URL: z.string().min(1, 'REDIS_URL is required')
 });
 
-const parsedEnv = envSchema.safeParse(process.env);
+export type EnvConfig = z.infer<typeof envSchema>;
 
-if (!parsedEnv.success) {
-    console.error('X invalid environment variables:', parsedEnv.error.format());
-}
+const getValidatedEnv = (): EnvConfig => {
+    try {
+        return envSchema.parse(process.env);
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            console.error('❌ Invalid environment variables:', error.format());
+        } else {
+            console.error('❌ Unknown error loading environment variables:', error)
+        }
+        process.exit(1);
+    }
+};
 
-export const env = parsedEnv.data;
+
+export const env: EnvConfig = getValidatedEnv();
