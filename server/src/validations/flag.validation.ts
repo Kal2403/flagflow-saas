@@ -26,6 +26,13 @@ export const createFlagSchema = z.object({
     environments: z.record(FlagEnvironmentEnum, environmentConfigSchema)
 });
 
+export const updateFlagSchema = z.object({
+    description: z.string().max(255).optional(),
+    type: FlagTypeEnum.optional(),
+    environments: z.record(FlagEnvironmentEnum, environmentConfigSchema.partial()).optional()
+});
+
 export type IFlagRule = z.infer<typeof flagRuleSchema>;
 export type IEnvironmentConfig = z.infer<typeof environmentConfigSchema>;
 export type ICreateFlagInput = z.infer<typeof createFlagSchema>;
+export type IUpdateFlagInput = z.infer<typeof updateFlagSchema>;
