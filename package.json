@@ -1,0 +1,10 @@
+{
+  "name": "flagflow-monorepo",
+  "private": true,
+  "scripts": {
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down",
+    "server:dev": "npm run dev --prefix server",
+    "client:dev": "npm run dev --prefix client"
+  }
+}
